@@ -1,0 +1,6 @@
+Default Tickets
+-=============-
+
+Change Log:
+ - 12/18/2007 16:44: File: main.js (CSHEPPARD)
+ Changed lines 296, 299, 302, 305: CREATE_DATE to TICKET_ID

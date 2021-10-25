@@ -1,0 +1,137 @@
+body
+{
+	background-image: url(mac_bg.jpg);
+	background-repeat: repeat;
+	background-color: #e9c7a4;
+}
+
+A:link
+{
+	text-decoration: none;
+	color: #000000;
+}
+
+A:visited
+{
+	text-decoration: none;
+	color: #000000;
+}
+
+A:active
+{
+	text-decoration: none;
+	color: #000000;
+}
+
+A:hover
+{
+	text-decoration: none;
+	color: #7b7070;
+}
+
+.text_header
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: bold;
+	
+	text-align: center;
+	
+	color: #000000;
+	background-color: #f2f2f2;
+	background-image: url(mac_header_bg.jpg);
+	background-repeat: repeat-x;
+}
+
+.text_subheader
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+	
+	color: #000000;
+	background-color: #f2f2f2;
+}
+
+.text_normal
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	
+	color: #000000;
+	background-color: #f2f2f2;
+}
+
+.text_normal_link
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	font-weight: bold;
+	
+	color: #000000;
+}
+
+.text_normal_background
+{
+	background-image: url(mac_main_bg.jpg);
+	background-repeat: repeat;
+}
+
+.table_border
+{
+	border-left: solid #000000 1px;
+	border-top: solid #cacecd 1px;
+	border-right: solid #000000 1px;
+	border-bottom: solid #000000 1px;
+	
+	background-image: url(mac_header_bg.jpg);
+	background-repeat: repeat-x;
+}
+
+.input_button
+{
+	color: #000000;
+	background-image: url(mac_button_fill.jpg);
+	background-repeat: repeat;
+	
+	border-right: solid #000000 1px;
+	border-top: solid #ffffff 1px;
+	border-bottom: solid #000000 1px;
+	border-left: solid #ffffff 1px;
+}
+
+.input_textbox
+{
+	background-color: #ffffff;
+	color: #000000;
+}
+
+.input_textbox_noborder
+{
+	border: solid #f2f2f2 1px;
+	background-color: #f2f2f2;
+}
+
+.input_textbox_fixedwidth
+{
+	width: 260px;
+}
+
+
+.text_small
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	
+	color: #000000;
+	background-image: url(mac_main_bg.jpg);
+	background-repeat: repeat;
+}

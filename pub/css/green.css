@@ -1,0 +1,133 @@
+body
+{
+	background-image: url(green_bg.jpg);
+	background-repeat: repeat;
+}
+
+A:link
+{
+	text-decoration: none;
+	color: #000000;
+}
+
+A:visited
+{
+	text-decoration: none;
+	color: #000000;
+}
+
+A:active
+{
+	text-decoration: none;
+	color: #000000;
+}
+
+A:hover
+{
+	text-decoration: none;
+	color: #43a881;
+}
+
+.text_header
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: bolder;
+	
+	background-image: url(green_header_fill.jpg);
+	background-repeat: repeat-x;
+	background-color: #787c80;
+	color: #ffffff;
+}
+
+.text_subheader
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 15px;
+	font-style: normal;
+	font-weight: bold;
+	
+	background-color: #097076;
+	color: #ffffff;
+}
+
+.text_normal
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: normal;
+	
+	background-color: #04595e;
+	color: #ffffff;
+}
+
+.text_normal_link
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: normal;
+	font-weight: bold;
+	
+	color: #ffffff;
+}
+
+.text_small
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	
+	background-color: #04595e;
+	color: #ffffff;
+}
+
+.table_border
+{
+	border: solid #097076 1px;
+}
+
+.input_button
+{
+	color: #ffffff;
+	background-image: url(green_button_fill.jpg);
+	background-repeat: repeat-x;
+	
+	border-right: solid #000000 1px;
+	border-top: solid #ffffff 1px;
+	border-bottom: solid #000000 1px;
+	border-left: solid #ffffff 1px;
+}
+
+.input_textbox
+{
+	background-color: #ffffff;
+	color: #000000;
+}
+
+.input_textbox_noborder
+{
+	border: solid #097076 1px;
+	background-color: #097076;
+}
+
+.input_textbox_fixedwidth
+{
+	width: 260px;
+}
+
+
+.text_small
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	
+	color: #000000;
+	background-image: url(mac_main_bg.jpg);
+	background-repeat: repeat;
+}

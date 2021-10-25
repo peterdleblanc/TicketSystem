@@ -1,0 +1,120 @@
+body
+{
+	background-image: url(coffee_bg.jpg);
+	background-repeat: repeat;
+	background-color: #e9c7a4;
+}
+
+A:link
+{
+	text-decoration: none;
+	color: #ffffff;
+}
+
+A:visited
+{
+	text-decoration: none;
+	color: #ffffff;
+}
+
+A:active
+{
+	text-decoration: none;
+	color: #ffffff;
+}
+
+A:hover
+{
+	text-decoration: none;
+	color: #000000;
+}
+
+.text_header
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: bolder;
+	
+	background-color: #e4b98e;
+	color: #7e3949;
+}
+
+.text_subheader
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 15px;
+	font-style: normal;
+	font-weight: bold;
+	
+	background-color: #d8b088;
+	color: #7e3949;
+}
+
+.text_normal
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	
+	color: #ffffff;
+	background-color: #653332;
+}
+
+.text_normal_link
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	font-weight: bold;
+	
+	color: #ffffff;
+}
+
+.table_border
+{
+	border: solid #d8b088 1px;
+}
+
+.input_button
+{
+	color: #000000;
+	background-image: url(coffee_button_fill.jpg);
+	background-repeat: repeat;
+	
+	border-right: solid #000000 1px;
+	border-top: solid #ffffff 1px;
+	border-bottom: solid #000000 1px;
+	border-left: solid #ffffff 1px;
+}
+
+.input_textbox
+{
+	background-color: #ffffff;
+	color: #000000;
+}
+
+.input_textbox_noborder
+{
+	border: solid #d8b088 1px;
+	background-color: #d8b088;
+}
+
+.input_textbox_fixedwidth
+{
+	width: 260px;
+}
+
+
+.text_small
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	
+	color: #ffffff;
+	background-color: #653332;
+}

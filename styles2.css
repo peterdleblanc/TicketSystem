@@ -1,0 +1,137 @@
+/*Body Data*/
+body {
+	/*background-image:url(pub/images/backgrounds/page_bg.jpg);*/
+	/*background-repeat: repeat;*/
+	background-color: #383838;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:visited {
+	text-decoration: none;
+}
+
+/*Interface*/
+.tlb_outer {
+	border-style: solid;
+	border-width: thin;
+	border-color: #606060;
+	background-color: #707070;
+}
+
+.text_header {
+	font-family: arial, times new roman;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: bold;
+	/*background-image: url(pub/images/headers/header_bg.jpg);*/
+	/*background-repeat: repeat-x;*/
+	background-color: #A8A8A8;
+}
+
+.text_subheader {
+	font-family: arial, times new roman;
+	font-size: 19px;
+	font-style: normal;;
+	font-weight: bold;
+	background-color: #484848;
+	color: #ffffff;
+}
+
+.text_subheader2 {
+	font-family: arial, times new roman;
+	font-size: 15px;
+	font-style: normal;;
+	font-weight: bold;
+	background-color: #606060;
+	color: #ffffff;
+}
+
+.text_subheader3 {
+	font-family: arial, times new roman;
+	font-size: 13px;
+	font-style: normal;;
+	font-weight: bold;
+	background-color: #606060;
+	color: #ffffff;
+}
+
+.text_normal {
+	font-family: arial, times new roman;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #ffffff;
+	background-color: #606060;
+}
+
+.text_small {
+	font-family: arial, times new roman;
+	font-size: 10px;
+	font-style: normal;
+}
+
+.text_larger {
+	font-family: arial, times new roman;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.text_buttons {
+	font-family: arial, times new roman;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	background-color: #606060;
+	color: #ffffff;
+	border-top: solid 1px #ffffff;
+	border-left: solid 1px #ffffff;
+	border-right: solid 1px #000000;
+	border-bottom: solid 1px #000000;
+}
+
+.text_textbox {
+	font-family: arial, times new roman;
+	font-size: 12px;
+	font-style: normal;
+	color: #000000;
+}
+
+.bg-readonlyfield {
+	background-color:#E8E8E8;
+}
+
+.text_toc-header {
+	font-family: arial, times new roman;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: bold;
+}
+
+.text_toc-subheader {
+	font-family: arial, times new roman;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+}
+
+.text_toc-normal {
+	font-family: arial, times new roman;
+	font-size: 12px;
+	font-style: normal;
+}
+
+.text_toc-quote {
+	font-family: arial, times new roman;
+	font-size: 9px;
+	font-style: italic;
+}
+
+.text_toc-examples {
+	font-family: arial, times new roman;
+	font-size: 11px;
+}

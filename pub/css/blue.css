@@ -1,0 +1,127 @@
+body
+{
+	background-color: #728faa;
+	background-image: url(default_bg.jpg);
+	background-repeat: repeat;
+}
+
+A:link
+{
+	text-decoration: none;
+	color: #ffffff;
+}
+
+A:visited
+{
+	text-decoration: none;
+	color: #ffffff;
+}
+
+A:active
+{
+	text-decoration: none;
+	color: #000000;
+}
+
+A:hover
+{
+	text-decoration: none;
+	color: #e9e9e9;
+}
+
+.text_header
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: bolder;
+	
+	background-image: url(blue_header_fill.jpg);
+	background-repeat: repeat-x;
+	background-color: #82abd1;
+	color: #ffffff;
+}
+
+.text_subheader
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 15px;
+	font-style: normal;
+	font-weight: bold;
+	
+	background-image: url(blue_subheader_fill.jpg);
+	background-repeat: repeat-x;
+	background-color: #04647d;
+	color: #e9e9e9;
+}
+
+.text_normal
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	
+	background-color: #07708c;
+	color: #ffffff;
+}
+
+.text_normal_link
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	font-weight: bold;
+	
+	color: #ffffff;
+}
+
+.table_border
+{
+	border: solid #000000 1px;
+}
+
+.input_button
+{
+	color: #000000;
+	background-image: url(blue_button_fill.jpg);
+	background-repeat: repeat;
+	
+	border-right: solid #000000 1px;
+	border-top: solid #ffffff 1px;
+	border-bottom: solid #000000 1px;
+	border-left: solid #ffffff 1px;
+}
+
+.input_textbox
+{
+	background-color: #ffffff;
+	color: #000000;
+}
+
+.input_textbox_noborder
+{
+	border: solid #82abd1 1px;
+	background-color: #82abd1;
+	background-image: url(blue_header_fill.jpg);
+	background-repeat: repeat-x;
+	color: #ffffff;
+}
+
+.input_textbox_fixedwidth
+{
+	width: 260px;
+}
+
+
+.text_small
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	
+	background-color: #07708c;
+	color: #ffffff;
+}

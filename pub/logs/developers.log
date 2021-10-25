@@ -1,0 +1,41 @@
+Developers Log
+--------------
+RULES:
+Log is meant to communicate between the development team what has been completed/added. Please post in the format "~ (MM.DD.YY) -- NOTE_HERE!".
+-----------------------------------------------------------------------------------------------
+~ (10.19.07) -- Added shortcut keys to accessable fields.
+
+~ (10.22.07) -- Added Problem Summary and Next Action fields.
+~ (10.22.07) -- POSSIBLE CONCEPT -- The main interface is inside the div named "main". We could have a div called "login" and only show the main div when the login is complete.
+~ (10.22.07) -- Created two new forms: createscreen(create) and loginscreen(login).
+~ (10.22.07) -- Added a cancel button to the "Create Agent Profile" form. This should return the agent to the login form without creating a new employee number. (Name: cmd_Cancel)
+
+~ (10.23.07) -- NEXT_ACTION field needs to be included in the TO_BE_WORKED table.
+~ (10.23.07) -- Function: SearchDB() is missing. (Function is now automated into the system)
+
+~ (10.25.07) -- comments history is done, validation is done, tested seems to work fine.
+~ (10.25.07) -- could you please do the interface for the reports.
+
+~ (10.26.07) -- Completed the actions log and redid the interface for the comment history
+~ (10.26.07) -- Setup the admin form.
+~ (10.26.07) -- Locked out the access databases with a username/password system.
+~ (10.26.07) -- Setup the "Click here to add you employee number." form.. nothing coded for the create button yet.
+
+~ (10.28.07) -- Updates:
+	Hey Peter
+	
+		could you finish the Add new user routines
+		please and thankyou.
+~ (11.05.07) -- Checklist:
+				- Debug all files for path issues.
+				- Reset all data for new import.
+				- Import new data into the database
+				- Add users to the logins table
+				- Add ppl to admin login for access databases.
+				- (OPTIONAL) Add to help index.
+
+
+	peterdleblanc@yahoo.ca
+	peterdleblanc@hotmail.com
+~ (11.09.07) -- Changed the captions on the view locked reported.. changed ticket ID to ticket# and TASC Status to Status. Done to fix alignment issues.
+	

@@ -1,0 +1,95 @@
+/*
+	~--------------------------------------------------~
+	~NO EDITING OF THIS DOCUMENT IS ALLOWED.
+	~PLEASE REPECT YOUR SYSTEM ADMINISTRATOR AND FOLLOW
+	THE LAYED-OUT RULES WHEN USING THIS PROGRAM.
+	~--------------------------------------------------~
+	
+	~ (c)2007 ~
+	Start Date; 10.12.07
+	Change Date: 11.05.07
+	**********************************************
+	Database Backend Programming by: Peter LeBlanc
+	Layout Programmed by: Craig Sheppard
+*/
+
+.tlb_outer {
+	border-style: ridge;
+	border-width: thin;
+	background-color: #F0F0F0;
+}
+
+.text_header {
+	font-family: arial, times new roman;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: bold;
+	background-image: url(pub/images/headers/header_bg.jpg);
+	background-repeat: repeat-x;
+}
+
+.text_subheader {
+	font-family: arial, times new roman;
+	font-size: 15px;
+	font-style: normal;
+	font-weight: bold;
+	background-repeat: repeat-x;
+}
+
+.text_subheader {
+	background-image: url(pub/images/headers/header_bg.jpg);
+	background-repeat: repeat-x;
+}
+
+.text_normal {
+	font-family: arial, times new roman;
+	font-size: 11px;
+	font-style: normal;
+	font-weight: bold;
+}
+
+.text_larger {
+	font-family: arial, times new roman;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: normal;
+}
+
+.text_buttons {
+	font-weight: bold;
+}
+
+.bg-readonlyfield {
+	background-color:#E8E8E8;
+}
+
+.text_toc-header {
+	font-family: arial, times new roman;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: bold;
+}
+
+.text_toc-subheader {
+	font-family: arial, times new roman;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+}
+
+.text_toc-normal {
+	font-family: arial, times new roman;
+	font-size: 12px;
+	font-style: normal;
+}
+
+.text_toc-quote {
+	font-family: arial, times new roman;
+	font-size: 9px;
+	font-style: italic;
+}
+
+.text_toc-examples {
+	font-family: arial, times new roman;
+	font-size: 11px;
+}

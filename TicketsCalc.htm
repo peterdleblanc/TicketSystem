@@ -1,0 +1,106 @@
+<html>
+	<head>
+		<title>Ticket Averages Calculator</title>
+		<HTA:APPLICATION ID="Ticket Averages Calculator" 
+			APPLICATIONNAME="Ticket Averages Calculator" 
+			BORDER="normal"
+			MAXIMIZEBUTTON="yes"
+			MINIMIZEBUTTON="yes"
+			BORDERSTYLE="normal"
+			CAPTION="yes"
+			INNERBORDER="no"
+			ICON="pub/images/icons/msaccess.ico"
+			SHOWINTASKBAR="yes"
+			SCROLL="yes"
+			SINGLEINSTANCE="yes"
+			SYSMENU="yes"
+			VERSION="1.0"
+			WINDOWSTATE="normal"
+		>
+		
+		<!-- CSS STYLESHEETS -->
+		<link rel="stylesheet" type="text/css" href="pub\\css\\default_large.css" title="default_large" />
+		
+		<!-- JAVASCRIPT LINKS -->
+		<script type="text/javascript">
+			function CalculateTotals()
+			{
+				var TicketsExpected_Calc = 0;
+				var TicketsPerDay_calc = 0;
+				
+				with(document.frmData)
+				{
+					TicketsExpected_Calc = (txt_DaysInMonth.value - txt_DaysNotWorked.value) * (txt_ShiftLength.value * txt_TicketsExpectedPerHour.value) - (txt_HoursNotWorked.value * txt_TicketsExpectedPerHour.value);
+					txt_TicketsExpectedPerMonth.value = TicketsExpected_Calc;
+					
+					TicketsPerDay_calc = TicketsExpected_Calc / (txt_DaysInMonth.value - txt_DaysNotWorked.value);
+					txt_TicketsPerDay.value = TicketsPerDay_calc;
+				}
+				
+				TicketsExpected_Calc = null;
+				TicketsPerDay_calc = null;
+			}
+		</script>
+	</head>
+	<body>
+		<form name="frmData">
+			<table width="100%" cellpadding="0" cellspacing="0" border="0" class="table_border" align="center">
+				<tr>
+					<td>
+						<table width="100%" cellpadding="2" cellspacing="0" border="0" class="text_normal">
+							<tr class="text_header">
+								<td colspan="2">Ticket Averages Calculator</td>
+							</tr>
+							<tr class="text_subheader">
+								<td colspan="2">**Tool is not approved by supervisors yet. Please check the TASC Intranet for additional updates.</td>
+							</tr>
+							<tr>
+								<td>Shift Length (hrs)</td>
+								<td>Tickets Expected per month</td>
+							</tr>
+							<tr>
+								<td><input type="text" name="txt_ShiftLength" id="txt_ShiftLength" value="8"></td>
+								<td><input type="text" name="txt_TicketsExpectedPerMonth" id="txt_TicketsExpectedPerMonth" value="" READONLY></td>
+							</tr>
+							<tr>
+								<td>Hours not Worked</td>
+								<td>Tickets per day</td>
+							</tr>
+							<tr>
+								<td><input type="text" name="txt_HoursNotWorked" id="txt_HoursNotWorked" value="0"></td>
+								<td><input type="text" name="txt_TicketsPerDay" id="txt_TicketsPerDay" value="" READONLY></td>
+							</tr>
+							<tr>
+								<td>Days not Worked</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td><input type="text" name="txt_DaysNotWorked" id="txt_DaysNotWorked" value=""></td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td>Days in the month</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td><input type="text" name="txt_DaysInMonth" id="txt_DaysInMonth" value="30"></td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td>Tickets Expected per Hour</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td><input type="text" name="txt_TicketsExpectedPerHour" id="txt_TicketsExpectedPerHour" value="4.375"></td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td colspan="2"><input type="button" name="cmd_Calc" id="cmd_Calc" value="Calculate" class="input_button" onClick="CalculateTotals()"><input type="reset" name="cmd_Reset" id="cmd_Reset" class="input_button"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>

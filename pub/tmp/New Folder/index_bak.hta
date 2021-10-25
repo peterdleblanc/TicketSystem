@@ -1,0 +1,1149 @@
+<html>
+	<head>
+		<title>Default Tickets Web Tracker - Version 1.5.6</title>
+		<HTA:APPLICATION ID="oMyApp" 
+			APPLICATIONNAME="Default Tickets Web Tracker" 
+			BORDER="normal"
+			MAXIMIZEBUTTON="yes"
+			MINIMIZEBUTTON="yes"
+			BORDERSTYLE="normal"
+			CAPTION="yes"
+			INNERBORDER="yes"
+			ICON="pub/images/icons/msaccess.ico"
+			SHOWINTASKBAR="yes"
+			SCROLL="yes"
+			SINGLEINSTANCE="yes"
+			SYSMENU="yes"
+			VERSION="1.5.6"
+			WINDOWSTATE="normal"
+		>
+		<script type="text/javascript">			
+			/*
+				TASC Default Tickets
+				Tracker v1.5Beta (RC2)
+				Copyright 2007 TASC Default Tickets Team
+				---------------------------------------
+				Database Backend Programming by: Peter LeBlanc
+				Layout Programmed by: Craig Sheppard
+				
+				Description:
+				Web-based database for working default tickets.
+				Build based upon interface and conceptional workings from the
+				access version.
+				
+				NEW! Features:
+				~ Ability to open and start working tickets without having to assign
+				out number ranges to individuals. The system locks you into an record,
+				that record is yours until you complete the ticket.
+				~ Upgraded interface with login screen. You are tracked by your employee
+				number and each action done including logging into the system is logged
+				into the system log.
+				~ Records Completed & Locked fields, there fields allow the logged-in agent
+				to get an count of the tickets they have locked (assigned to them) and
+				completed (tickets worked).
+				~ Unlock button: Lets you close the ticket assigned to you without completing
+				the ticket. (BUTTON IS PENDING.. MAYBE REMOVED).
+				~ If you close the application and a ticket is still locked to you, when
+				you open the application again the same ticket will come back to you.
+				
+				Location: T:\All In One\default_tickets
+				
+				*********************************************************
+				**MUST BE USED WHEN WORKING DEFAULT TICKETS (REQUIRED)!**
+				*********************************************************
+				
+				Update Log:
+				-----------
+				(10.12.07) -- Application Started
+				(10.19.07) -- Added shortcut keys to accessable fields.
+				(10.22.07) -- Added Problem Summary and Next Action fields.
+				(10.22.07) -- Created two new forms: createscreen(create) and loginscreen(login).
+				(11.05.07) -- Moved to All in One folder/default_tickets folder.
+				(11.05.07) -- Migrated import functions to the import.js file and linked them in the
+							main table.
+				(11.05.07) -- Created readme.txt file.
+				(11.05.07) -- Created shortcuts icons to access the system.
+				
+			*/
+			
+			/*
+				~--------------------------------------------------~
+				~NO EDITING OF THIS DOCUMENT IS ALLOWED.
+				~PLEASE RESPECT YOUR SYSTEM ADMINISTRATOR AND FOLLOW
+				THE LAYED-OUT RULES WHEN USING THIS PROGRAM.
+				~--------------------------------------------------~
+				
+				~ (c)2007 ~
+				Start Date; 10.12.07
+				Change Date: 11.05.07
+				**********************************************
+				Database Backend Programming by: Peter LeBlanc
+				Layout Programmed by: Craig Sheppard
+			*/
+				
+			//Globals Variables.
+			var ReportOn;
+		</script>
+
+		<!-- CSS STYLESHEET -->
+		<link rel="stylesheet" media="screen" href="styles.css" type="text/css">
+		<style type="text/css">
+			body {
+				/*background-color: #D0D0D0;*/
+				background-image:url(pub/images/backgrounds/page_bg.jpg);
+				background-repeat: repeat;
+				border-style: none;
+			}
+		</style>
+		
+		<!-- JAVASCRIPT LINKS -->
+		<script type="text/javascript" src="pub\\js\\main_v2.js"></script>
+		<script type="text/javascript" src="pub\\js\\connection.js"></script>
+		<script type="text/javascript" src="pub\\js\\reports_v2.js"></script>
+		<script type="text/javascript" src="pub\\js\\login.js"></script>
+		<script type="text/javascript" src="pub\\js\\validation.js"></script>
+		<script type="text/javascript" src="calendar2.js"></script>
+		<script type="text/javascript" src="pub\\js\\help.js"></script>
+		<script type="text/javascript" src="pub\\js\\usermanagement.js"></script>
+		
+
+		
+
+
+	</head>
+	<body Onload="SetPageControls()">
+	
+	<!-- LOGIN FORMS -->
+	<!--
+		DIV NAME: loginscreen 
+		FORM NAME: frmMainLogin
+		INCLUDED FORM CONTROLS:
+		- txt_EmpNum (TEXTBOX)
+		- txt_Password (TEXTBOX)
+		- cmd_Login (BUTTON)
+		- lbl_LoginStatus (LABEL)
+	-->
+	<!-- START >> -->
+		<form name="frmMainLogin" onKeyPress="ForceLogin()">
+			<div id="loginscreen" name="loginscreen" style="position:absolute; visibility:show; z-index:1;">
+				<table width="100%" cellspacing="0" cellpadding="0" style="text-align: center;">
+					<tr>
+						<td>
+							<table width="50%" cellspacing="0" cellpadding="0" class="tlb_outer" style="text-align: center;">
+								<tr class="text_header">
+									<tr class="text_header">
+									<td>Login</td>
+								</tr>
+								<tr valign="top">
+									<td>
+										<table name="tlbmain" id="tlbmain" class="text_normal">
+											<tr>
+												<td style="text-align:right;"><label for="txt_EmpNum" accesskey="e"><u>E</u>mployee #:</label></td>
+												<td><input id="txt_EmpNum" name="txt_EmpNum" maxlength="9" type="text" size="8" class="text_normal"></td>
+											</tr>
+											<!--
+											<tr>
+												<td style="text-align:right;"><label for="txt_EmpCMS" accesskey="e">Employee <u>C</u>MS #:</label></td>
+												<td><input id="txt_EmpCMS" name="txt_EmpCMS" maxlength="5" type="password" size="12" class="text_normal"></td>
+											</tr>
+											-->
+											<tr>
+												<td style="text-align:right;"><label for="txt_Password" accesskey="p"><u>P</u>assword:</label></td>
+												<td><input id="txt_Password" name="txt_Password" maxlength="15" type="password" size="12" class="text_normal"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><label for="cmd_Login" accesskey=13><input name="cmd_Login" type="button" value="Login" class="text_subheader text_normal text_buttons" onClick="CheckLogin();"></label></td>
+											</tr>
+											
+											<tr>
+												<td colspan="2" style="border: solid 1px #000000; background-color: #ffffff;">&nbsp;Notice: If this is your first time using this system, your default password is "ChangeMe".&nbsp;</td>
+											</tr>
+											
+											<tr>
+												<td colspan="2"><label id="lbl_LoginStatus"></label></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							
+							<table width="50%" cellspacing="0" cellpadding="0" class="tlb_outer" style="text-align: center;">
+								<tr class="text_header">
+									<td>Browser Setup Instructions</td>
+								</tr>
+								<tr valign="top">
+									<td>
+										<table name="tlbmain" id="tlbmain" class="text_normal">
+											<tr>
+												<td>On many computers you may need to set the <i>Local intranet</i> settings to low or make the database part of your <i>Trusted Sites</i>.</td>
+											</tr>
+											<tr>
+												<td><u>1. Local Intranet to Low</u></td>
+											</tr>
+											<tr>
+												<td>
+													<ol>
+														<li>Open an new internet explorer window.</li>
+														<li>Goto Tools > Internet Options.</li>
+														<li>Goto the Security tab.</li>
+														<li>From the "Web content zone" section choose "Local intranet".</li>
+														<li>Click the button "Default Level".</li>
+														<li>Move the slider from "Medium-low" down to "Low".</li>
+														<li>Click OK.</li>
+													</ol>
+												</td>
+											</tr>
+											<!--
+											<tr>
+												<td><u>2. Making the database part of the <i>Trusted Sites</i>.</u></td>
+											</tr>
+											<tr>
+												<td>
+													<ol>
+														<li>Open an new internet explorer window.</li>
+														<li>Goto Tools > Internet Options.</li>
+														<li>Goto the Security tab.</li>
+														<li>From the "Web content zone" section choose "Trusted sites".</li>
+														<li>Click the button "Sites".</li>
+														<li>In the "Add the Web site to the zone" field add "T:\All In One\default_tickets\index.hta".</li>
+														<li>Click Add.</li>
+														<li>Click OK.</li>
+														<li>Click APPLY then OK.</li>
+													</ol>
+												</td>
+											</tr>
+											-->
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!--
+		DIV NAME: div_logincheck
+		FORM NAME: frmLoginCheck
+		INCLUDED FORM CONTROLS:
+		- txt_CurrentEmpNum (TEXTBOX)
+		- txt_Password (TEXTBOX)
+		- cmd_Login (BUTTON)
+		- cmd_Cancel (BUTTON)
+	-->
+		<form name="frmLoginCheck">
+			<div id="div_logincheck" name="div_logincheck" style="position:absolute; visibility:hidden; z-index:3;">
+				<table width="100%" cellspacing="0" cellpadding="0" style="text-align: center;">
+					<tr>
+						<td>
+							<table width="30%" cellspacing="0" cellpadding="0" class="tlb_outer" style="text-align: center;">
+								<tr class="text_header">
+									<td>Validation Required</td>
+								</tr>
+								<tr valign="top">
+									<td>
+										<table name="tlbmain" id="tlbmain" class="text_normal">
+											<tr>
+												<td style="text-align:right;"><label for="txt_CurrentEmpNum" accesskey="c"><u>C</u>urrent User:</label></td>
+												<td><input id="txt_CurrentEmpNum" name="txt_CurrentEmpNum" maxlength="15" type="text" size="12" class="text_normal" DISABLED></td>
+											</tr>
+											<tr>
+												<td style="text-align:right;"><label for="txt_Password" accesskey="p"><u>P</u>assword:</label></td>
+												<td><input id="txt_Password" name="txt_Password" maxlength="15" type="password" size="12" class="text_normal"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;<input id="hidden_requesttype" name="hidden_requesttype" type="hidden" class="text_normal" size="6"></td>
+												<td>
+													<label for="cmd_Login" accesskey="v"><input id="cmd_Login" type="button" value="Validate" class="text_subheader text_normal text_buttons" onClick="ValidateLogin();"></label>
+													<label for="cmd_Cancel" accesskey="l"><input id="cmd_Cancel" type="button" value="Cancel" class="text_subheader text_normal text_buttons" onClick="CancelValidation();"></label>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	<!-- << END -->
+	
+	<!-- ADMINISTRATION FORM -->
+	<!--
+		DIV NAME: div_adminscreen
+		FORM NAME: frmAdmin
+		INCLUDED FORM CONTROLS:
+		- cmd_CloseWindow (BUTTON)
+		- txt_UMEmpNum (TEXTBOX)
+		- txt_UMPassword (TEXTBOX)
+		- txt_UMPastxt_UMNamesword (TEXTBOX)
+		- cbm_UMUserLevel (SELECT)
+		- txt_TicketID (TEXTBOX)
+		- txt_EmpNum (TEXTBOX)
+		- txt_From (TEXTBOX)
+		- txt_To (TEXTBOX)
+		- lbl_CurrentLoggedIn (LABEL)
+	-->
+	<!-- START >> -->
+		<form name="frmAdmin">
+			<div id="div_adminscreen" name="div_adminscreen" style="position:absolute; visibility:hidden; z-index:4;">
+				<table width="100%" cellspacing="0" cellpadding="0" style="text-align: center;">
+					<tr>
+						<td>
+							<table width="30%" cellspacing="0" cellpadding="0" class="tlb_outer" style="text-align: center;">
+								<tr class="text_header">
+									<td>Administration</td>
+									<td style="text-align:right;" width="5%"><label for="cmd_CloseWindow" accesskey="c"><input id="cmd_CloseWindow" type="button" value="Close" class="text_subheader text_normal text_buttons" OnClick="CloseAdminOptions()" onMouseOver="showStatus('Close Admin')" onMouseOut="showStatus('')"></label></td>
+								</tr>
+								<tr valign="top">
+									<td colspan="2">
+										<table width="100%" name="tlbmain" id="tlbmain" class="text_normal">
+											<tr class="text_header text_normal">
+												<td>&nbsp;User Management:</td>
+											</tr>
+											<tr>
+												<td>
+													<table width="100%" name="tlbmain" id="tlbmain" class="text_normal" style="text-align:center;">
+														<tr valign="top">
+															<td>
+																<table width="100%" name="tlbmain" id="tlbmain" class="text_normal">
+																	<tr>
+																		<td>
+																			<a href="#" onClick="manageUsers('promote')"><img src="pub/images/buttons/img_promoteuser.gif" border="0"></a>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>
+																			<a href="#" onClick="manageUsers('create')"><img src="pub/images/buttons/img_createuser.gif" border="0"></a>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>
+																			<a href="#" onClick="manageUsers('reset')"><img src="pub/images/buttons/img_resetuser.gif" border="0"></a>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>
+																			<a href="#" onClick="manageUsers('delete')"><img src="pub/images/buttons/img_deleteuser.gif" border="0"></a>
+																		</td>
+																	</tr>
+																</table>
+															</td>
+															
+															<td>
+																<table width="100%" name="tlbmain" id="tlbmain" class="text_normal">
+																	<tr>
+																		<td style="text-align:right;">Employee #'s:&nbsp;</td>
+																		<td><input type="text" name="txt_UMEmpNum" id="txt_UMEmpNum" maxlength="9" size="11"></td>
+																	</tr>
+																	<tr>
+																		<td style="text-align:right;">Password:&nbsp;</td>
+																		<td><input type="password" name="txt_UMPassword" id="txt_UMPassword"></td>
+																	</tr>
+																	<tr>
+																		<td style="text-align:right;">Name:&nbsp;</td>
+																		<td><input type="text" name="txt_UMName" id="txt_UMName"></td>
+																	</tr>
+																	<tr>
+																		<td style="text-align:right;">User Level:&nbsp;</td>
+																		<td>
+																			<select name="cbm_UMUserLevel" id="cbm_UMUserLevel" onChange="">
+																				<option value="n/a"> -= Select from List =- </option>
+																				<option value="basic" SELECTED>Basic</option>
+																				<option value="powerusers">Poweruser</option>
+																				<option value="supervisor">Supervisor</option>
+																				<option value="admin">Admin</option>
+																			</select>
+																		</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+											<tr class="text_header text_normal">
+												<td>&nbsp;Reporting:</td>
+											</tr>
+											<tr>
+												<td>
+													<table width="100%" cellpadding="0" cellspacing="0" name="tlbmain" id="tlbmain" class="text_normal" style="text-align:center;">
+														<tr valign="top">
+															<td style="border-right:1px; border-left:0px; border-top:0px; border-bottom:0px; border-style:solid; border-width:thin;">
+																<table width="100%" name="tlbmain" id="tlbmain" class="text_normal">
+																	<tr>
+																		<td style="text-align:right;">Ticket #:&nbsp;</td>
+																		<td><input id="txt_TicketID" name="txt_TicketID" type="text" size="12" maxlength="12"></td>
+																	<tr>
+																	
+																	</tr>
+																		<td style="text-align:right;">Employee #:&nbsp;</td>
+																		<td><input id="txt_EmpNum" name="txt_EmpNum" type="text" size="10" maxlength="9"></td>
+																	<tr>
+																	
+																	</tr>
+																		<td style="text-align:right;">From:&nbsp;</td>
+																		<td><input name="txt_From" id="txt_From" type="text" size="10"><a href="#" onClick="cal_From.popup()"><img src="pub/images/icons/img_cal.gif" width="16" height="16" border="0" alt="Click here to pick the date."></td>
+																	<tr>
+																	
+																	</tr>
+																		<td style="text-align:right;">To:&nbsp;</td>
+																		<td><input name="txt_To" id="txt_To" type="text" size="10"><a href="#" onClick="cal_To.popup()"><img src="pub/images/icons/img_cal.gif" width="16" height="16" border="0" alt="Click here to pick the date."></td>
+																	</tr>
+																</table>
+															</td>
+															<!--
+															<td>
+																<table width="100%" name="tlbmain" id="tlbmain" class="text_normal">
+																	<tr>*
+																		<td><a href="#" onClick="AdminGetUserStats(ReportOn)"><img src="pub/images/buttons/img_agentfeedback_report.gif" border="0"></a></td>
+																		<td><a href="#" onClick="GetFeedbackStats()"><img src="pub/images/buttons/img_invalidagentfeedback_report.gif" border="0"></a></td>
+																	</tr>
+																	
+																	<tr>
+																		*<td><a href="#" onClick="DefaultTotal()"><img src="pub/images/buttons/img_default_tickets_totals.gif" border="0"></a></td>
+																		*<td><a href="#" onClick="UnLockAgentTickets()"><img src="pub/images/buttons/img_unlockall_tickets.gif" border="0"></a></td>
+																	</tr>
+																	
+																	<tr>*
+																		<td><a href="#" onClick="UpdateCompletedTable()"><img src="pub/images/buttons/img_completed.gif" border="0"></a></td>
+																		<td><a href="#" onClick="GetCompletedTotal()"><img src="pub/images/buttons/img_totalticketcomplete_today.gif" border="0"></a></td>
+																	</tr>
+																	
+																	<tr>*
+																		<td><a href="#" onClick="AdminUnlockTicket()"><img src="pub/images/buttons/img_releaseheldticket.gif" border="0"></a></td>
+																		<td><a href="#" onClick="ClearOrphans()"><img src="pub/images/buttons/img_clearorphans_table.gif" border="0"></a></td>
+																	</tr>
+																	
+																	<tr>*
+																		<td><a href="#" onClick="GetFeedbackStatsSpreadsheet()"><img src="pub/images/buttons/img_invalidtickets_spreadsheet.gif" border="0"></a></td>
+																		<td><a href="#" onClick="DefaultTotalSpreadsheet()"><img src="pub/images/buttons/img_agentfeedback_spreadsheet.gif" border="0"></a></td>
+																	</tr>
+																	
+																	<tr>*
+																		<td><a href="#" onClick="ViewAgentComments()"><img src="pub/images/buttons/img_viewagentscomments.gif" border="0"></a></td>
+																		<td><a href="#" onClick="LockedTicketCount()"><img src="pub/images/buttons/img_numberoflockedtickets.gif" border="0"></a></td>
+																	</tr>
+																	
+																	<tr>*
+																		<td><a href="#" onClick="ViewTicketAgents()"><img src="pub/images/buttons/img_loggedinagents.gif" border="0"></a></td>
+																		<td><a href="#" onClick="HeldTicketCount()"><img src="pub/images/buttons/img_numberofheldtickets.gif" border="0"></a></td>
+																	</tr>
+																	
+																	<tr>*
+																		<td><a href="#" onClick=""><img src="pub/images/buttons/img_agentdaybydaybreakdown_spreadsheet.gif" border="0"></a></td>
+																		<td><a href="#" onClick="AgentTicketReport()"><img src="pub/images/buttons/img_agentsticketslist_spreadsheet.gif" border="0"></a></td>
+																	</tr>
+																	
+																	<tr>*
+																		<td><a href="#" onClick=""><img src="pub/images/buttons/img_assignagentticket_table.gif" border="0"></a></td>
+																		<td></td>
+																	</tr>
+																</table>
+															</td>
+															-->
+															<td>
+																<table width="100%" cellpadding="0" cellspacing="0" class="text_normal">
+																	<tr valign="top">
+																		<td>
+																			<table width="100%" cellpadding="0" cellspacing="0" class="text_normal">
+																				<tr class="text_header">
+																					<td style="text-align: center;">Actions</td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="UpdateCompletedTable()"><img src="pub/images/buttons/img_completed.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="GetCompletedTotal()"><img src="pub/images/buttons/img_totalticketcomplete_today.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="UnLockAgentTickets()"><img src="pub/images/buttons/img_unlockall_tickets.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="AdminUnlockTicket()"><img src="pub/images/buttons/img_releaseheldticket.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="ClearOrphans()"><img src="pub/images/buttons/img_clearorphans_table.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="ViewAgentComments()"><img src="pub/images/buttons/img_viewagentscomments.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="LockedTicketCount()"><img src="pub/images/buttons/img_numberoflockedtickets.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="ViewTicketAgents()"><img src="pub/images/buttons/img_loggedinagents.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="HeldTicketCount()"><img src="pub/images/buttons/img_numberofheldtickets.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="AssignTicketToAgent()"><img src="pub/images/buttons/img_assignagentticket_table.gif" border="0"></a></td>
+																				</tr>
+																			</table>
+																		</td>
+																		
+																		<td>
+																			<table width="100%" cellpadding="0" cellspacing="0" class="text_normal">
+																				<tr class="text_header">
+																					<td style="text-align: center;">Reports</td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="DefaultTotal()"><img src="pub/images/buttons/img_default_tickets_totals.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="GetFeedbackStatsSpreadsheet()"><img src="pub/images/buttons/img_invalidtickets_spreadsheet.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="DefaultTotalSpreadsheet()"><img src="pub/images/buttons/img_agentfeedback_spreadsheet.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick=""><img src="pub/images/buttons/img_agentdaybydaybreakdown_spreadsheet.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="AgentTicketReport()"><img src="pub/images/buttons/img_agentsticketslist_spreadsheet.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="AdminGetUserStats(ReportOn)"><img src="pub/images/buttons/img_agentfeedback_report.gif" border="0"></a></td>
+																				</tr>
+																				<tr>
+																					<td><a href="#" onClick="GetFeedbackStats()"><img src="pub/images/buttons/img_invalidagentfeedback_report.gif" border="0"></a></td>
+																				</tr>
+																			</table>
+																		</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+											<tr class="text_header text_normal">
+												<td style="text-align:right;">Current User:&nbsp;<label id="lbl_CurrentLoggedIn"></label>&nbsp;</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	<!-- << END -->
+	
+	<!-- HELP CONTENTS FORMS -->
+	<!--
+		DIV NAME: div_modifyhelpfilescreen
+		FORM NAME: frmModifyHelpfile
+		INCLUDED FORM CONTROLS:
+		- txt_ControlEnabled (TEXTBOX)
+		- txt_Title (TEXTBOX)
+		- txt_Text (TEXTBOX)
+		- cmd_Update (BUTTON)
+		- cmd_New (BUTTON)
+		- cmd_Cancel (BUTTON)
+		- cmd_Prev (BUTTON)
+		- cmd_Next (BUTTON)
+	-->
+	<!-- START >> -->
+		<form name="frmModifyHelpfile">
+			<div id="div_modifyhelpfilescreen" name="div_modifyhelpfilescreen" style="position:absolute; visibility:hidden; z-index:3;">
+				<table width="100%" cellspacing="0" cellpadding="0" style="text-align: center;">
+					<tr>
+						<td>
+							<table width="30%" cellspacing="0" cellpadding="0" class="tlb_outer" style="text-align: center;">
+								<tr class="text_header">
+									<td>Online Helpfile Editor</td>
+								</tr>
+								<tr valign="top">
+									<td>
+										<table name="tlbmain" id="tlbmain" class="text_normal">
+											<tr>
+												<td style="text-align:right;"><label for="txt_ControlEnabled" accesskey="e"><u>E</u>nabled:</label></td>
+												<td><input id="txt_ControlEnabled" name="txt_ControlEnabled" maxlength="1" type="text" size="2" value="1" class="text_normal"></td>
+											</tr>
+											<tr>
+												<td style="text-align:right;"><label for="txt_Title" accesskey="t"><u>T</u>itle:</label></td>
+												<td><input id="txt_Title" name="txt_Title" maxlength="60" type="text" size="68" class="text_normal"></td>
+											</tr>
+											<tr valign="top">
+												<td style="text-align:right;"><label for="txt_Text" accesskey="x">Te<u>x</u>t:</label></td>
+												<td><textarea id="txt_Text" name="txt_Text" rows="30" cols="90"></textarea></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td>
+													<label for="cmd_Update" accesskey="u"><input id="cmd_Update" type="button" value="Update" class="text_subheader text_normal text_buttons" onClick="UpdateHelpfileEntry();"></label>
+													<label for="cmd_New" accesskey="w"><input id="cmd_New" type="button" value="New" class="text_subheader text_normal text_buttons" onClick="ValidateNewEntry();"></label>
+													<label for="cmd_Cancel" accesskey="l"><input id="cmd_Cancel" type="button" value="Close" class="text_subheader text_normal text_buttons" onClick="CancelHelpfileScreen();"></label>
+													<label for="cmd_Prev" accesskey="p"><input id="cmd_Prev" type="button" value="<" class="text_subheader text_normal text_buttons" onClick="" DISABLED></label>
+													<label for="cmd_Next" accesskey="n"><input id="cmd_Next" type="button" value=">" class="text_subheader text_normal text_buttons" onClick=""></label>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!--
+		DIV NAME: div_helpcontents
+		FORM NAME: frmHelpContents
+		INCLUDED FORM CONTROLS:
+		- cmd_Close (BUTTON)
+	-->
+		<form name="frmHelpContents">
+			<div id="div_helpcontents" name="div_logincheck" style="position:absolute; visibility:hidden; z-index:3;">
+				<table width="70%" cellspacing="0" cellpadding="3">
+					<tr>
+						<td>
+							<table width="100%" cellspacing="0" cellpadding="0" class="tlb_outer">
+								<tr class="text_header">
+									<td>&nbsp;Online Manual</td>
+									<td style="text-align:right;">
+										<label for="cmd_Close" accesskey="c">
+											<input id="cmd_Close" type="button" value="Close" class="text_subheader text_normal text_buttons" onClick="closeHelp()">
+										</label>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<!-- Table of Contents -->
+							<table width="100%" cellspacing="0" cellpadding="0" class="tlb_outer">
+								<tr class="text_subheader">
+									<td>&nbsp;Table of Contents</td>
+								</tr>
+								<tr class="text_normal">
+									<td>
+										<table width="100%" cellspacing="0" cellpadding="0" class="text_normal">
+											<script language="javascript">
+												//Generate the Table of Contents
+												//populateTOC();
+											</script>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					
+					<!-- Contents -->
+					<script language="javascript">
+						//Generate the Table of Contents
+						//populateTOC_Contents();
+					</script>
+				</table>
+			</div>
+		</form>
+	<!-- << END -->
+
+	<!-- REPORT ISSUE FORM -->
+	<!--
+		DIV NAME: div_reportissue
+		FORM NAME: frmReportIssue
+		INCLUDED FORM CONTROLS:
+		- 
+	-->
+	<!-- START >> -->
+		<form name="frmReportIssue">
+			<div id="div_reportissue" name="div_reportissue" style="position:absolute; visibility:hidden; z-index:20;">
+				<table width="100%" cellspacing="0" cellpadding="0" style="text-align: center;">
+					<tr>
+						<td>
+							<table width="40%" cellspacing="0" cellpadding="0" class="tlb_outer" style="text-align: center;">
+								<tr class="text_header">
+									<td>Found a Problem? Let us know</td>
+								</tr>
+								<tr valign="top">
+									<td>
+										<table class="text_normal">
+											<tr>
+												<td style="text-align: right;">Select Issue Type:</td>
+												<td>
+													<select id="cbo_issueprob" name="cbo_issueprob" class="text_normal" onChange="UpdateIssueProbDD(document.frmReportIssue.cbo_issueprob.value)">
+														<option value="n/a"> -= Choose Problem Type =- </option>
+														<option value="Locked Tickets show a Neg Value">Locked Tickets show a Neg Value</option>
+														<option value="Was unable to save, getting an erorr message">Was unable to save, getting an erorr message</option>
+														<option value="Trouble Accessing my Locked Tickets">Trouble Accessing my Locked Tickets</option>
+														<option value="I keep getting the same ticket over and over.">I keep getting the same ticket over and over.</option>
+														<option value="Other">Other</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td style="text-align: right;">Other:</td>
+												<td><input type="text" name="txt_IssueOther" id="txt_IssueOther" value="Choose Other from List to Access" size="35" class="text_normal" DISABLED></td>
+											</tr>
+											<tr valign="top">
+												<td style="text-align: right;">Details:</td>
+												<td><textarea id="txt_issuedetails" name="txt_issuedetails" rows="10" cols="60" class="text_normal" DISABLED>Please Choose a Reason before typing in this box.</textarea></td>
+											</tr>
+											<tr style="text-align: right;">
+												<td colspan="2"><input type="button" name="cmd_IssueReset" id="cmd_IssueReset" value="Reset" class="text_normal" onClick="Reset_IssueForm()"><input type="button" name="cmd_IssueSubmit" id="cmd_IssueSubmit" value="Submit" class="text_normal" onClick="submit_Issue()"><input type="button" name="cmd_IssueCancelled" id="cmd_IssueCancelled" value="Cancel" class="text_normal" onClick="Cancel_IssueForm()"></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	<!-- << END -->
+	
+	<!-- PROCESS REQUEST FORM -->
+	<!--
+		DIV NAME: div_processingrequest
+		FORM NAME: frmProcessRequest
+		INCLUDED FORM CONTROLS:
+		- lbl_currentrequest (LABEL)
+	-->
+	<!-- START >> -->
+		<form name="frmProcessRequest">
+			<div id="div_processingrequest" name="div_processingrequest" style="position:absolute; visibility:hidden; z-index:10;">
+				<table width="100%" cellspacing="0" cellpadding="0" style="text-align: center;">
+					<tr>
+						<td>
+							<table width="55%" cellspacing="0" cellpadding="0" class="tlb_outer" style="text-align: center;">
+								<tr class="text_header">
+									<td>Processing ...&nbsp;<label name="lbl_currentrequest" id="lbl_currentrequest"></label></td>
+								</tr>
+								<tr valign="top">
+									<td>
+										<table name="tlbmain" id="tlbmain" class="text_normal">
+											<tr>
+												<td>Processing Your Request...</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	<!-- << END -->
+	
+	<!-- MAIN FORM -->
+	<!--
+		DIV NAME: div_main
+		FORM NAME: frmmain
+		INCLUDED FORM CONTROLS:
+		- lbl_Header (LABEL)
+		- lbl_formstatus (LABEL)
+		- txt_TicketID (TEXTBOX)
+		- txt_IndicatorCity (TEXTBOX)
+		- txt_RegionName (TEXTBOX)
+		- txt_PrimaryPhone (TEXTBOX)
+		- txt_RecordNum (TEXTBOX)
+		- txt_Assigned_Date (TEXTBOX)
+		- txt_CreateDate (TEXTBOX)
+		- txt_Node (TEXTBOX)
+		- txt_WorkedDate (TEXTBOX)
+		- txt_NumofContacts (TEXTBOX)
+		- txt_ProblemSummary (TEXTBOX)
+		- txt_NextAction (TEXTBOX)
+		- cmb_TicketStatus (SELECT)
+		- cmb_TicketReassignedTo (SELECT)
+		- cmb_CallbackTo (SELECT)
+		- cmb_NextAction (SELECT)
+		- cmb_TicketTTRDuration (SELECT)
+		- chk_CallbackDone (CHECKBOX)
+		- chk_InvalidTicket (CHECKBOX)
+		- chk_InvalidBounceback (CHECKBOX)
+		- chk_Re_Assigned (CHECKBOX)
+		- cmd_CallbackReason (SELECT)
+		- txt_Other (TEXTBOX)
+		- txt_TTSID (TEXTBOX)
+		- cmb_Problem (SELECT)
+		- txt_ResolutionNotes (TEXTBOX)
+		- txt_PreResolutionNotes (TEXTBOX)
+		- txt_EmployeeNum (TEXTBOX)
+		- cmd_modifyhelpfile (BUTTON)
+		- cmd_WorkedLockedTickets (BUTTON)
+		- cmd_ViewOwnedLocked (BUTTON)
+		- txt_RecRemaining (BUTTON)
+		- txt_TickettoRelease (TEXTBOX)
+		- cbm_TickettoRelease (BUTTON)
+		- cmd_prevlocked (BUTTON)
+		- txt_RecLocked (TEXTBOX)
+		- cmd_nextlocked (BUTTON)
+	-->
+	<!-- START >> -->
+		<table width="580" cellspacing="0" cellpadding="0" align="center">
+			<tr valign="middle">
+				<td>
+					<form name="frmmain" style="position:static; left:10px; top:0px; z-index:2;">
+						<div name="div_main" id="div_main">
+							<table width="100%" cellspacing="0" cellpadding="0" class="tlb_outer">
+								<tr class="text_header">
+									<td>
+										&nbsp;<label id="lbl_Header">Locked Tickets</label>
+									</td>
+									<td style="text-align:right; color:#ffffff;" class="text_normal">
+										Status: <label id="lbl_formstatus"></label>&nbsp;
+										(<a href="#" onClick="ChangePassword()" style="color: #ffffff;">Change Password</a> | <a href="#" onClick="openHelp()" style="color: #ffffff;">Help Index</a>)&nbsp;
+									</td>
+								</tr>
+								<tr valign="top">
+									<td>
+										<table name="tlbmain" id="tlbmain" class="text_normal">
+											<tr>
+												<td style="text-align: right;">Ticket ID</td>
+												<td><input id="txt_TicketID" name="txt_TicketID" type="text" maxlength="" class="text_normal" style="background-color: yellow;" READONLY></td>
+												<td><label for="img_ticketid_copybutton" accesskey="i"><a href="#" id="img_ticketid_copybutton" onClick="CopyText(document.frmmain.txt_TicketID.value)"><img src="pub/images/icons/icon_copy.jpg" border="0"></a></label></td>
+											</tr>
+											<tr>
+												<td style="text-align: right;">Indicator City</td>
+												<td><input id="txt_IndicatorCity" name="txt_IndicatorCity" type="text" maxlength="" class="text_normal" READONLY></td>
+												<td><a href="#" onClick="CopyText(document.frmmain.txt_IndicatorCity.value);"><img src="pub/images/icons/icon_copy.jpg" border="0"></a></td>
+											</tr>
+											<tr>
+												<td style="text-align: right;">Region Name</td>
+												<td><input id="txt_RegionName" name="txt_RegionName" type="text" maxlength="" class="text_normal" READONLY></td>
+												<td><a href="#" onClick="CopyText(document.frmmain.txt_RegionName.value);"><img src="pub/images/icons/icon_copy.jpg" border="0"></a></td>
+											</tr>
+											<tr>
+												<td style="text-align: right;">Primary Phone</td>
+												<td><input id="txt_PrimaryPhone" name="txt_PrimaryPhone" type="text" maxlength="" class="text_normal" READONLY></td>
+												<td><a href="#" onClick="CopyText(document.frmmain.txt_PrimaryPhone.value);"><img src="pub/images/icons/icon_copy.jpg" border="0"></a></td>
+											</tr>
+											<!--
+											<tr>												
+												<td style="text-align: right;">Record #</td>
+												<td><input id="txt_RecordNum" name="txt_RecordNum" type="text" maxlength="3" class="text_normal" size="2" READONLY></td>
+											</tr>
+											-->
+										</table>
+									</td>
+									<td>
+										<table name="tlbmain" id="tlbmain" class="text_normal">
+											<tr>
+												<td style="text-align: right;">Assigned Date</td>
+												<td><input id="txt_Assigned_Date" name="txt_Assigned_Date" type="text" maxlength="" class="text_normal" READONLY></td>
+												<td><a href="#" onClick="CopyText(document.frmmain.txt_Assigned_Date.value);"><img src="pub/images/icons/icon_copy.jpg" border="0"></a></td>
+											</tr>
+											<tr>
+												<td style="text-align: right;">Create Date</td>
+												<td><input id="txt_CreateDate" name="txt_CreateDate" type="text" maxlength="" class="text_normal" READONLY></td>
+												<td><a href="#" onClick="CopyText(document.frmmain.txt_CreateDate.value);"><img src="pub/images/icons/icon_copy.jpg" border="0"></a></td>
+											</tr>
+											<tr>
+												<td style="text-align: right;">Node</td>
+												<td><input id="txt_Node" name="txt_Node" type="text" maxlength="" class="text_normal" READONLY></td>
+												<td><a href="#" onClick="CopyText(document.frmmain.txt_Node.value);"><img src="pub/images/icons/icon_copy.jpg" border="0"></a></td>
+											</tr>
+											<tr>
+												<td style="text-align: right;">Worked Date</td>
+												<td><input id="txt_WorkedDate" name="txt_WorkedDate" type="text" maxlength="" class="text_normal" READONLY></td>
+												<td><a href="#" onClick="CopyText(document.frmmain.txt_WorkedDate.value);"><img src="pub/images/icons/icon_copy.jpg" border="0"></a></td>
+											</tr>
+											<!--
+											<tr>
+												
+												<td style="text-align: right;"># of Contacts</td>
+												<td><input id="txt_NumofContacts" name="txt_NumofContacts" type="text" maxlength="3" class="text_normal" size="2" READONLY></td>
+												
+											</tr>
+											-->
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<table name="tlbmain" id="tlbmain" class="text_normal">
+											<tr>
+												<td style="text-align: right;">Problem Summary</td>
+												<td><input id="txt_ProblemSummary" name="txt_ProblemSummary" type="text" size="40" class="text_normal" READONLY></td>
+											</tr>
+										</table>
+									</td>
+									<td>
+										<table name="tlbmain" id="tlbmain" class="text_normal">
+											<tr>
+												<td style="text-align: right;">Next Action</td>
+												<td colspan="2"><input id="txt_NextAction" name="txt_NextAction" type="text" size="30" class="text_normal" READONLY></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							
+							<table width="100%" cellspacing="0" cellpadding="0" class="tlb_outer">
+								<tr>
+									<td>
+										<table width="100%" class="text_normal" cellspacing="0" cellpadding="0">
+											<tr class="text_header">
+												<td>
+													<input id="txt_NumofContacts" name="txt_NumofContacts" type="text" maxlength="3" class="text_normal" size="2" style="visibility:hidden;" READONLY>
+													<input id="txt_RecordNum" name="txt_RecordNum" type="text" maxlength="3" class="text_normal" size="2" style="visibility:hidden;" READONLY>
+												</td>
+											</tr>
+											<tr valign="baseline">
+												<td>
+													<table width="100%" class="text_normal">
+														<tr valign="top">
+															
+															<td>
+																<table width="100%" class="text_normal">
+																	<tr>
+																		<td style="text-align: right;"><label for="cmb_TicketStatus" accesskey="u">Ticket Stat<u>u</u>s:</label></td>
+																		<td>
+																			<select id="cmb_TicketStatus" name="cmb_TicketStatus" class="text_normal" onChange="validate_cmb_TicketStatus()">
+																				<option value="n/a">-= Choose From List =-</option>
+																				<option value="Completed">Completed</option>
+																				<!-- <option value="Working">Working</option> -->
+																				<option value="Callback Needed">Callback Needed</option>
+																				<option value="Reassigned">Reassigned</option>
+																				<option value="Never Worked">Never Worked</option>
+																			</select>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td style="text-align: right;"><label for="cmb_TicketReassignedTo" accesskey="d">Re-assigne<u>d</u> To:</label></td>
+																		<td>
+																			<select id="cmb_TicketReassignedTo" name="cmb_TicketReassignedTo" class="text_normal" onChange="validate_cmb_TicketReassignedTo()" DISABLED>
+																				<option value="n/a">-= Choose From List =-</option>
+																				<option value="Denver Support Desk">Denver Support Desk</option>
+																				<option value="National IP">National IP</option>
+																			</select>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td style="text-align: right;"><label for="cmb_CallbackTo" accesskey="a">Callb<u>a</u>ck To:</label></td>
+																		<td>
+																			<select id="cmb_CallbackTo" name="cmb_CallbackTo" class="text_normal" onChange="validate_cmb_TicketReassignedTo()" DISABLED>
+																				<option value="n/a">-= Choose From List =-</option>
+																				<option value="To Self">To Self</option>
+																				<option value="Back to Public Listings">Back to Public Listings</option>
+																			</select>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td style="text-align: right;"><label for="cmb_NextAction" accesskey="c">NEW! Next A<u>c</u>tion:</label></td>
+																		<td>
+																			<select id="cmb_NextAction" name="cmb_NextAction" class="text_normal" DISABLED>
+																				<option value="n/a">-= Choose From List =-</option>
+																				<option value="Call Back Needed">Call Back Needed</option>
+																				<option value="Waiting on Purge">Waiting on Purge</option>
+																			</select>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td style="text-align: right; visibility:hidden;"><label for="cmb_TicketTTRDuration" accesskey="o">TTR Durati<u>o</u>n:</label></td>
+																		<td>
+																			<input id="cmb_TicketTTRDuration" name="cmb_TicketTTRDuration" type="text" maxlength="10" class="text_normal" style="visibility:hidden;" size="10" DISABLED></input>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td colspan="2">
+																			<input id="chk_CallbackDone" name="chk_CallbackDone" type="checkbox" class="text_normal" onClick="verify_chk_CallbackDone();"> <label for="chk_CallbackDone" accesskey="d">Callback <u>D</u>one</label>
+																			<input id="chk_InvalidTicket" name="chk_InvalidTicket" type="checkbox" class="text_normal" onClick="verify_chk_InvalidTicket();"> <label for="chk_InvalidTicket" accesskey="v">In<u>v</u>alid Ticket</label>
+																			
+																			<input id="chk_InvalidBounceback" name="chk_InvalidBounceback" type="checkbox" class="text_normal" onClick="verify_checkboxes('chk_InvalidBounceback');" DISABLED style="visibility:hidden;"> <!-- <label for="chk_InvalidBounceback" accesskey="i"><u>I</u>nvalid Bounceback</label> -->
+																			<input id="chk_Re_Assigned" name="chk_Re_Assigned" type="checkbox" class="text_normal" onClick="verify_checkboxes('chk_Re_Assigned');" DISABLED style="visibility:hidden;"> <!-- <label for="chk_Re_Assigned" accesskey="l">Re-Assigned from <u>L</u>MC</label> -->
+																		</td>
+																	</tr>
+																</table>
+															</td>
+															<td>
+																<table width="100%" class="text_normal">
+																	<tr>
+																		<td style="text-align: right;"><label for="cmd_CallbackReason" accesskey="b">Call<u>b</u>ack Reason:</label></td>
+																		<td>
+																			<select id="cmd_CallbackReason" name="cmd_CallbackReason" class="text_normal" onChange="validate_cmd_CallbackReason();" DISABLED>
+																				<option value="n/a">-= Choose From List =-</option>
+																				<option value="Set up Email">Set up Email</option>
+																				<option value="Email Password">Email Password</option>
+																				<option value="Purge Permission">Purge Permission</option>
+																				<option value="Registration">Registration</option>
+																				<option value="Clarify Issue">Clarify Issue</option>
+																				<option value="Failed Installs">Failed Installs</option>
+																				<option value="Verify Connectivity">Verify Connectivity</option>
+																				<option value="Other">Other</option>
+																			</select>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td style="text-align: right;"><label for="txt_Other" accesskey="o"><u>O</u>ther:</label></td>
+																		<td><input id="txt_Other" name="txt_Other" type="text" maxlength="" class="text_normal" DISABLED></td>
+																	</tr>
+																	<tr>
+																		<td style="text-align: right;"><label for="txt_TTSID" accesskey="s">TT<u>S</u> ID:</label></td>
+																		<td><input id="txt_TTSID" name="txt_TTSID" type="text" maxlength="" class="text_normal" DISABLED></td>
+																	</tr>
+																	<tr>
+																		<td style="text-align: right;"><label for="cmb_Problem" accesskey="p"><u>P</u>roblem</label></td>
+																		<td>
+																			<select id="cmb_Problem" name="cmb_Problem" class="text_normal" DISABLED>
+																				<option value="n/a">-= Choose From List =-</option>
+																				<option value="Resolved By Agent Before TASC">Resolved By Agent Before TASC</option>
+																				<option value="Cannot Access Webmail">Cannot Access Webmail</option>
+																				<option value="Cannot Receive Webmail">Cannot Receive Webmail</option>
+																				<option value="Escalated Transfer of Login Request">Escalated Transfer of Login Request</option>
+																				<option value="Insufficient Troubleshooting">Insufficient Troubleshooting</option>
+																				<option value="Incomplete Documentation">Incomplete Documentation</option>
+																				<option value="Didnt Replicate-Recreate Issue">Didn't Replicate / Recreate Issue</option>
+																				<option value="Didnt Check Outage Board">Didn't Check Outage Board</option>
+																				<option value="Unsupported">Unsupported</option>
+																				<option value="APT Failed">APT Failed</option>
+																			</select>
+																		</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<table class="text_normal">
+											<tr>
+												<td><u>R</u>esolution: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Characters Typed:&nbsp;<label id="lbl_AllowedChars">0</label>)</td>
+											</tr>
+											<tr>
+												<td>
+													<label for="txt_ResolutionNotes" accesskey="r"><textarea id="txt_ResolutionNotes" name="txt_ResolutionNotes" rows="3" cols="104" class="text_larger" onKeyUp="CheckAllowedChars()" onKeyDown="CheckAllowedChars()"></textarea></label>
+												</td>
+											</tr>
+											<tr>
+												<td>Previous Notes on this ticket:</td>
+											</tr>
+											<tr>
+												<td>
+													<textarea id="txt_PreResolutionNotes" name="txt_PreResolutionNotes" rows="6" cols="104" class="text_larger" READONLY></textarea>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<label for="cmd_PreResolutionNotes" accesskey="h"><input name="cmd_PreResolution Notes" type="button" value="Comment History" class="text_subheader text_normal text_buttons" onClick="DisplayCommentHistory()"></label>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							
+							<table width="100%" cellspacing="0" cellpadding="0" class="tlb_outer" style="text-align: right;">
+								<tr>
+									<td>
+										<table width="100%" class="text_normal text_subheader" style="color:#ffffff;">
+											<tr>
+												<td style="text-align: left;">
+													<input id="txt_EmployeeNum" name="txt_EmployeeNum" type="hidden" maxlength="15" class="text_normal" size="6">
+													<input id="txt_EmployeeName" name="txt_EmployeeName" type="hidden" maxlength="15" class="text_normal" size="6">
+													<!-- <input id="txt_EmpCMS" name="txt_EmpCMS" type="hidden" maxlength="15" class="text_normal" size="6"> -->
+													<input name="globalhidden" id="globalhidden" type="hidden" value="">
+												</td>
+												<td width="20%" style="text-align:right;"><input name="cmd_modifyhelpfile" type="button" value="Modify Helpfile" class="text_subheader text_normal text_buttons" onClick="TestImport()"><input id="cmd_admin" type="button" value="Admin" class="text_subheader text_normal text_buttons" onClick="ValidateUser('Administration')"><input id="cmd_actionlog" type="button" value="Action Log" class="text_subheader text_normal text_buttons" onClick="ValidateUser('ActionsLog')"><input id="cmd_vieworphans" type="button" value="View Orphans" class="text_subheader text_normal text_buttons" onClick="ValidateUser('ViewOrphans')"><input id="cmd_import" type="button" value="Import" class="text_subheader text_normal text_buttons" onClick="ValidateUser('Import')"><input id="cmd_ReportIssue" type="button" value="Report Issue" class="text_subheader text_normal text_buttons" onclick="Display_ReportIssue_form();"><label for="cmd_CurAgentStats" accesskey="e"><input id="cmd_CurAgentStats" type="button" value="Current Stats" class="text_subheader text_normal text_buttons" onclick="DisplayUserStats()"></label><label for="cmdsave" accesskey="c"><input id="cmdsave" name="cmdsave" type="button" value="Save and Continue" class="text_subheader text_normal text_buttons" onclick="SaveAndContinue();"></label><label for="cmdSaveAndExit" accesskey="e"><input id="cmdSaveAndExit" type="button" value="Save and Exit" class="text_subheader text_normal text_buttons" onclick="SaveAndExit();"></label></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							
+							<table width="100%" cellspacing="0" cellpadding="0" style="text-align: left;">
+								<tr>
+									<td>
+										<table width="100%" cellspacing="0" cellpadding="0" class="text_normal tlb_outer">
+											<tr>
+												<td>
+													<input name="cmd_WorkedLockedTickets" type="button" value="Work New Tickets" class="text_subheader text_normal text_buttons" onClick="SwitchNewWorked()">
+													<input name="cmd_ViewOwnedLocked" id="cmd_ViewOwnedLocked" type="button" value="View Locked" class="text_subheader text_normal text_buttons" onClick="ViewOwnedLocked()">
+												</td>
+												<td style="text-align: right;">
+													<label id="lbl_TimetoRelease">Release Ticket (Time/Date):&nbsp;</label>
+													<input name="txt_Date" id="txt_Date" type="text" size="10">
+													<a href="#" onClick="cal_Date.popup()">
+														<img src="pub/images/icons/img_cal.gif" width="16" height="16" border="0" alt="Click here to pick the date.">
+													</a>
+													<select id="txt_TimetoRelease" name="txt_TimetoRelease" class="text_normal">
+															<option value="1"></option>
+															<option value="1">1:00 AM</option>
+															<option value="2">2:00 AM</option>
+															<!--
+															<option value="3">3:00 AM</option>
+															<option value="4">4:00 AM</option>
+															<option value="5">5:00 AM</option>
+															<option value="6">6:00 AM</option>
+															<option value="7">7:00 AM</option>
+															<option value="8">8:00 AM</option>
+															<option value="9">9:00 AM</option>
+															-->
+															<option value="10">10:00 AM</option>
+															<option value="11">11:00 AM</option>
+															<option value="12">12:00 AM</option>
+															<option value="13">1:00 PM</option>
+															<option value="14">2:00 PM</option>
+															<option value="15">3:00 PM</option>
+															<option value="16">4:00 PM</option>
+															<option value="17">5:00 PM</option>
+															<option value="18">6:00 PM</option>
+															<option value="19">7:00 PM</option>
+															<option value="20">8:00 PM</option>
+															<option value="21">9:00 PM</option>
+															<option value="22">10:00 PM</option>
+															<option value="23">11:00 PM</option>
+															<option value="24">12:00 PM</option>
+													</select>
+													&nbsp;
+													<label id="lbl_TickettoRelease">TTS #:&nbsp;</label>
+													<input name="txt_TickettoRelease" id="txt_TickettoRelease" type="text" size="11" maxlength="12">
+													<input name="cbm_TickettoRelease" id="cbm_TickettoRelease" type="button" value="Release Ticket" class="text_subheader text_normal text_buttons" onClick="UnlockTicket()">
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2" style="text-align: right;">
+													Remaining Tickets: <label id="lbl_RecRemaining"></label>&nbsp;|&nbsp;
+													Completed: <label id="lbl_RecCompleted"></label>&nbsp;|&nbsp;
+													Locked: <label id="lbl_RecLocked"></label>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</form>
+				</td>
+			</tr>
+		</table>
+	<!-- << END -->
+
+	<!-- CALENDAR JAVASCRIPT EXECUTE -->
+	<!--
+		NAME: Tigra Calendar
+		URL: http://www.softcomplex.com/products/tigra_calendar/
+		Version: 3.4 (American date format)
+		--------------------------------------------------------
+		COPYRIGHT: Permission given to use this script in ANY kind of 
+		applications if header lines are left unchanged.
+	-->
+	
+	<!-- START >> -->
+		<!-- <input type="text" name="txt_DateReceivedMatch"><a href="javascript:PeterCal3.popup();"><img src="img/cal.gif" width="16" height="16" border="0" alt="Click Here to Pick up the date"> -->
+		<script language="JavaScript">
+			var cal_To = new calendar2(document.forms['frmAdmin'].elements['txt_To']);
+			var cal_From = new calendar2(document.forms['frmAdmin'].elements['txt_From']);
+			var cal_Date = new calendar2(document.forms['frmmain'].elements['txt_Date']);
+		</script>
+	<!-- << END -->
+	</body>
+</html>

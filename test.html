@@ -1,0 +1,91 @@
+<html>
+<head>
+<title>HTML-Graphs Example</title>
+
+<script language="JavaScript" src="graphs.js"></script>
+<script language="JavaScript">
+function createGraph(Lables,Values) 
+{
+	var LablesString;
+	var ValueString;
+	
+	LablesString=''
+	ValueString=''
+	
+	for(i in Lables)
+	{
+		LablesString = LablesString + Lables[i] + ',' 
+	}
+	
+	for(i in Values)
+	{
+		ValueString = ValueString + Values[i] + ','
+	}
+	
+
+	var graph = new BAR_GRAPH("hBar");
+	graph.values = ValueString;
+	graph.labels = LablesString;
+	graph.showValues = 1;
+	graph.barWidth = 20;
+	graph.barLength = 1;
+	graph.labelSize = 12;
+	graph.absValuesSize = 12;
+	graph.percValuesSize = 12;
+	graph.graphPadding = 10;
+	graph.graphBGColor = "#ABCDEF";
+	graph.graphBorder = "1px solid blue";
+	graph.barColors = "#A0C0F0";
+	graph.barBGColor = "#E0F0FF";
+	graph.barBorder = "2px outset white";
+	graph.labelColor = "#000000";
+	graph.labelBGColor = "#C0E0FF";
+	graph.labelBorder = "2px groove white";
+	graph.absValuesColor = "#000000";
+	graph.absValuesBGColor = "#FFFFFF";
+	graph.absValuesBorder = "2px groove white";
+	
+	document.write(graph.create());
+}
+
+function TestPassignValues()
+{
+	var Lables=new Array();
+	var Values=new Array();
+
+	Lables[0] = 'APT Failed';
+	Lables[1] = 'Bedrock - Modem Info Incorrect';
+	Lables[2] = 'Incorrect Boot File';
+	Lables[3] = 'No Access to APT';
+	Lables[4] = 'User ID and Password';
+	Lables[5] = 'Escalated Transfer of Login Request';
+	Lables[6] = 'Partial Page Load/Error';
+	Lables[7] = 'No Block Sync';
+	Lables[8] = 'Comcast Website Information';
+	Lables[9] = 'Cannot Receive Webmail';
+	Lables[10] = 'Cannot Access Webmail';
+	
+
+	Values[0] = '48';
+	Values[1] = '17';
+	Values[2] = '3';
+	Values[3] = '2';
+	Values[4] = '15';
+	Values[5] = '112';
+	Values[6] = '8';
+	Values[7] = '5';
+	Values[8] = '16';
+	Values[9] = '109';
+	Values[10] = '83';
+	
+	
+	createGraph(Lables,Values)
+	
+}
+
+</script>
+</head>
+<body marginwidth="10" marginheight="10" topmargin="10" leftmargin="10" onLoad="TestPassignValues()">
+</body>
+
+</html>

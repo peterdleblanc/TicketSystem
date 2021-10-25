@@ -1,0 +1,130 @@
+body
+{
+	background-color: #a1a3a6;
+	background-image: url(xmas_bg.jpg);
+	background-repeat: repeat;
+}
+
+A:link
+{
+	text-decoration: none;
+	color: #ffffff;
+}
+
+A:visited
+{
+	text-decoration: none;
+	color: #ffffff;
+}
+
+A:active
+{
+	text-decoration: none;
+	color: #ffffff;
+}
+
+A:hover
+{
+	text-decoration: none;
+	color: #E8E8E8;
+}
+
+.text_header
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: bolder;
+	
+	background-image: url(xmas_header_fill.jpg);
+	background-repeat: repeat-x;
+	background-color: #787c80;
+	color: #ffffff;
+}
+
+.text_subheader
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: bold;
+	
+	background-image: url(xmas_subheader_fill.jpg);
+	background-repeat: repeat-x;
+	background-color: #e1e3eb;
+	color: #000000;
+}
+
+.text_normal
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+	
+	background-color: #e1e3eb;
+	color: #000000;
+}
+
+.text_normal_link
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: normal;
+	font-weight: bold;
+	
+	color: #ffffff;
+}
+
+.table_border
+{
+	border: solid #ffffff 1px;
+}
+
+.input_button
+{
+	font-weight: bold;
+	
+	color: #ffffff;
+	background-image: url(xmas_button_fill.jpg);
+	background-repeat: repeat-x;
+	
+	border-right: solid #000000 1px;
+	border-top: solid #ffffff 1px;
+	border-bottom: solid #000000 1px;
+	border-left: solid #ffffff 1px;
+	
+	font-weight: bold;
+}
+
+.input_textbox
+{
+	background-color: #ffffff;
+	color: #000000;
+	
+	font-weight: bold;
+}
+
+.input_textbox_noborder
+{
+	border: solid #e1e3eb 1px;
+	background-color: #e1e3eb;
+	color: #000000;
+}
+
+.input_textbox_fixedwidth
+{
+	width: 260px;
+}
+
+.text_small
+{
+	font-family: Trebuchet MS, Arial;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	
+	background-color: #e1e3eb;
+	color: #000000;
+}
